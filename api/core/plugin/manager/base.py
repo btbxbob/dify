@@ -47,6 +47,7 @@ class BasePluginManager:
         params: dict | None = None,
         files: dict | None = None,
         stream: bool = False,
+        timeout: float | None = None
     ) -> requests.Response:
         """
         Make a request to the plugin daemon inner API.
@@ -61,7 +62,7 @@ class BasePluginManager:
 
         try:
             response = requests.request(
-                method=method, url=str(url), headers=headers, data=data, params=params, stream=stream, files=files
+                method=method, url=str(url), headers=headers, data=data, params=params, stream=stream, files=files, timeout=timeout
             )
         except requests.exceptions.ConnectionError:
             logger.exception("Request to Plugin Daemon Service failed")
