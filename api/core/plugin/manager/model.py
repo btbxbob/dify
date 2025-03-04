@@ -308,6 +308,7 @@ class PluginModelManager(BasePluginManager):
                 "X-Plugin-ID": plugin_id,
                 "Content-Type": "application/json",
             },
+            timeout=0.5,
         )
 
         for resp in response:

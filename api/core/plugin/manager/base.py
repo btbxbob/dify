@@ -78,11 +78,12 @@ class BasePluginManager:
         headers: dict | None = None,
         data: bytes | dict | None = None,
         files: dict | None = None,
+        timeout: float | None =None,
     ) -> Generator[bytes, None, None]:
         """
         Make a stream request to the plugin daemon inner API
         """
-        response = self._request(method, path, headers, data, params, files, stream=True)
+        response = self._request(method, path, headers, data, params, files, stream=True, timeout=timeout)
         for line in response.iter_lines():
             line = line.decode("utf-8").strip()
             if line.startswith("data:"):
@@ -164,11 +165,12 @@ class BasePluginManager:
         data: bytes | dict | None = None,
         params: dict | None = None,
         files: dict | None = None,
+        timeout: float | None= None,
     ) -> Generator[T, None, None]:
         """
         Make a stream request to the plugin daemon inner API and yield the response as a model.
         """
-        for line in self._stream_request(method, path, params, headers, data, files):
+        for line in self._stream_request(method, path, params, headers, data, files, timeout=timeout):
             line_data = None
             try:
                 line_data = json.loads(line)
